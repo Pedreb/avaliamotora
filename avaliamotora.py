@@ -66,7 +66,7 @@ st.markdown("""
 
 # Inicialização do banco de dados
 def init_database():
-    conn = sqlite3.connect('motoristas.db')
+    conn = sqlite3.connect('motoristas.db',check_same_thread=False)
     cursor = conn.cursor()
 
     # Tabela de motoristas
@@ -118,7 +118,7 @@ def init_database():
 
 # Funções do banco de dados
 def cadastrar_motorista(nome, veiculo_id):
-    conn = sqlite3.connect('motoristas.db')
+    conn = sqlite3.connect('motoristas.db',check_same_thread=False)
     cursor = conn.cursor()
     cursor.execute('''
         INSERT INTO motoristas (nome, veiculo_id, data_cadastro)
@@ -148,7 +148,7 @@ def listar_veiculos():
 
 
 def cadastrar_veiculo(placa, modelo, tipo_veiculo, proprio_alugado, cidade, ano):
-    conn = sqlite3.connect('motoristas.db')
+    conn = sqlite3.connect('motoristas.db',check_same_thread=False)
     cursor = conn.cursor()
     try:
         cursor.execute('''
@@ -164,7 +164,7 @@ def cadastrar_veiculo(placa, modelo, tipo_veiculo, proprio_alugado, cidade, ano)
 
 
 def importar_veiculos_excel(df_excel):
-    conn = sqlite3.connect('motoristas.db')
+    conn = sqlite3.connect('motoristas.db',check_same_thread=False)
     cursor = conn.cursor()
 
     sucessos = 0
@@ -219,7 +219,7 @@ def atualizar_motorista(motorista_id, nome, veiculo_id):
 
 
 def excluir_motorista(motorista_id):
-    conn = sqlite3.connect('motoristas.db')
+    conn = sqlite3.connect('motoristas.db',check_same_thread=False)
     cursor = conn.cursor()
     # Primeiro exclui todas as avaliações do motorista
     cursor.execute('DELETE FROM avaliacoes WHERE motorista_id = ?', (motorista_id,))
@@ -231,7 +231,7 @@ def excluir_motorista(motorista_id):
 
 def adicionar_avaliacao(motorista_id, custo_manutencao, disponibilidade_frota, metas_producao, seguranca_trabalho,
                         realizacao_checklist, conhecimento_manutencao, comunicacao_assertiva, comentario, avaliador):
-    conn = sqlite3.connect('motoristas.db')
+    conn = sqlite3.connect('motoristas.db',check_same_thread=False)
     cursor = conn.cursor()
     cursor.execute('''
         INSERT INTO avaliacoes (motorista_id, custo_manutencao, disponibilidade_frota, metas_producao, seguranca_trabalho, realizacao_checklist, conhecimento_manutencao, comunicacao_assertiva, comentario, avaliador, data_avaliacao)
@@ -244,7 +244,7 @@ def adicionar_avaliacao(motorista_id, custo_manutencao, disponibilidade_frota, m
 
 
 def obter_avaliacoes_motorista(motorista_id):
-    conn = sqlite3.connect('motoristas.db')
+    conn = sqlite3.connect('motoristas.db',check_same_thread=False)
     df = pd.read_sql_query('''
         SELECT * FROM avaliacoes 
         WHERE motorista_id = ? 
@@ -276,7 +276,7 @@ def calcular_estatisticas_motorista(motorista_id):
 
 
 def obter_ranking_geral():
-    conn = sqlite3.connect('motoristas.db')
+    conn = sqlite3.connect('motoristas.db',check_same_thread=False)
     df = pd.read_sql_query('''
         SELECT 
             m.nome,
